@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>과제 1 — 슬라이드 마스터 레이아웃 직접 만들기</title>
+<style>
+  :root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #6b7280;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f7f7f8;
+    --color-border-tertiary: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 24px 16px;
+  }
+  .widget {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* 상단 태그 + 제목 */
+  .header { margin-bottom: 20px; }
+  .tag-pill {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    margin-right: 6px;
+  }
+  .title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text-primary);
+  }
+
+  /* 소개 박스 */
+  .intro-box {
+    background: #f0edff;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--color-text-primary);
+  }
+
+  /* 섹션 레이블 */
+  .section-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* 사전 준비 2열 그리드 */
+  .prep-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .prep-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .prep-icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .prep-icon-box.purple { background: #e8e6fe; color: #5b4fd4; }
+  .prep-icon-box.green  { background: #d4f4e6; color: #1a8a5c; }
+  .prep-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .prep-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .prep-card ul li {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    padding-left: 10px;
+    position: relative;
+  }
+  .prep-card ul li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+  }
+
+  /* 단계 카드 */
+  .steps { margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .step-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px;
+    padding: 16px 18px;
+    background: var(--color-background-primary);
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .step-badge {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .badge-1 { background: #7b6cf7; }
+  .badge-2 { background: #3dba8c; }
+  .badge-3 { background: #f5a623; }
+  .badge-4 { background: #e05c5c; }
+  .badge-5 { background: #4a90d9; }
+  .step-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+  .step-card ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .step-card ul li {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--color-text-primary);
+    padding-left: 14px;
+    position: relative;
+  }
+  .step-card ul li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-secondary);
+  }
+  .step-sub-box {
+    background: var(--color-background-secondary);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-top: 10px;
+  }
+
+  /* 실무 팁 3열 그리드 */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .tip-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .tip-card h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--color-text-primary);
+  }
+  .tip-card p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="widget">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <div>
+      <span class="tag-pill">PPT 자동화</span>
+      <span class="tag-pill">슬라이드 마스터</span>
+      <span class="tag-pill">Claude in PPT</span>
+    </div>
+    <div class="title">과제 1 — 슬라이드 마스터 레이아웃<br>직접 만들기</div>
+  </div>
+
+  <!-- 소개 -->
+  <div class="intro-box">
+    파워포인트의 <b>슬라이드 마스터</b> 기능을 직접 설정하여 회사 서식에 맞는 일관된 레이아웃을 만들어봅니다.
+    한 번 만들어두면 모든 슬라이드에 자동 적용되어 보고서 작성 시간을 크게 줄일 수 있습니다.
+    이후 과제에서 사용할 <b>Claude in PPT</b>가 슬라이드 마스터를 기반으로 동작하므로, 이 과제가 전체 실습의 기초가 됩니다.
+  </div>
+
+  <!-- 사전 준비 -->
+  <div class="section-label">사전 준비</div>
+  <div class="prep-grid">
+    <div class="prep-card">
+      <div class="prep-icon-box purple">🛠</div>
+      <h4>준비물</h4>
+      <ul>
+        <li>Microsoft PowerPoint 2016 이상</li>
+        <li>회사 로고 이미지 파일 (없으면 임의 사용)</li>
+        <li>회사 메인 컬러 코드 (없으면 임의 색상 사용)</li>
+      </ul>
+    </div>
+    <div class="prep-card">
+      <div class="prep-icon-box green">✅</div>
+      <h4>사전 확인</h4>
+      <ul>
+        <li>PPT 새 파일을 열 수 있는지 확인</li>
+        <li>[보기] 메뉴가 상단에 보이는지 확인</li>
+        <li>실습용 빈 .pptx 파일 미리 생성</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 단계별 실습 -->
+  <div class="section-label">단계별 실습</div>
+  <div class="steps">
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-1">1</div>
+        <div class="step-title">슬라이드 마스터 진입하기</div>
+      </div>
+      <ul>
+        <li>PPT 상단 메뉴에서 <b>[보기]</b> 탭 클릭</li>
+        <li>리본 메뉴 오른쪽 영역의 <b>[슬라이드 마스터]</b> 버튼 클릭</li>
+        <li>화면이 바뀌면서 좌측 패널에 슬라이드 목록이 나타남</li>
+        <li>좌측 패널 <b>가장 위 큰 슬라이드</b>가 '마스터 슬라이드' — 클릭해서 선택</li>
+        <li>아래 작은 슬라이드들은 '레이아웃 슬라이드' — 각각 다른 형태의 레이아웃</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 마스터 슬라이드에서 수정한 내용(폰트, 로고 등)은 모든 레이아웃에 자동 반영됩니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-2">2</div>
+        <div class="step-title">레이아웃 1: 표지 슬라이드 만들기</div>
+      </div>
+      <ul>
+        <li>좌측 패널에서 마스터 바로 아래 첫 번째 레이아웃 슬라이드 선택</li>
+        <li>우클릭 → <b>[이름 바꾸기]</b> → "표지"로 이름 변경</li>
+        <li>중앙 제목 텍스트박스 클릭 → 폰트 크기 <b>36pt</b>, 굵게, 색상 설정</li>
+        <li>[삽입] → [그림] → 회사 로고 이미지 삽입 → 우측 상단에 배치 후 <b>위치 잠금</b></li>
+        <li>배경 색상 변경: 우클릭 → [배경 서식] → 단색으로 회사 메인 컬러 적용</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 로고 위치 잠금: 로고 선택 → [도형 서식] → [크기 및 위치] → "위치 고정" 체크
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-3">3</div>
+        <div class="step-title">레이아웃 2: 본문(텍스트) 슬라이드 만들기</div>
+      </div>
+      <ul>
+        <li>좌측 패널에서 두 번째 레이아웃 선택 → 이름 "본문"으로 변경</li>
+        <li>상단 제목 플레이스홀더 선택 → 높이 <b>1.5cm</b>, 상단 여백 <b>1cm</b>로 조정</li>
+        <li>본문 플레이스홀더 선택 → 글머리 기호 폰트 크기 <b>14pt</b>, 행간 <b>1.4</b>로 설정</li>
+        <li>하단에 슬라이드 번호 플레이스홀더 추가: [삽입] → [머리글/바닥글] → 슬라이드 번호 체크</li>
+        <li>슬라이드 번호 텍스트박스를 우측 하단으로 드래그해 위치 조정</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 텍스트박스(직접 삽입)와 플레이스홀더는 다릅니다. <b>반드시 '플레이스홀더'</b>를 사용해야 Claude in PPT가 내용을 인식할 수 있습니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-4">4</div>
+        <div class="step-title">레이아웃 3: 이미지+텍스트 혼합 슬라이드 만들기</div>
+      </div>
+      <ul>
+        <li>좌측 패널에서 세 번째 레이아웃 선택 → 이름 "이미지+텍스트"로 변경</li>
+        <li>기존 플레이스홀더 모두 삭제 (클릭 후 Delete)</li>
+        <li>[슬라이드 마스터] 탭 → <b>[플레이스홀더 삽입]</b> → [그림] 선택</li>
+        <li>좌측 영역(슬라이드 가로 50%)에 드래그해서 그림 플레이스홀더 배치</li>
+        <li>다시 [플레이스홀더 삽입] → [콘텐츠] 선택 → 우측 영역에 텍스트 플레이스홀더 배치</li>
+        <li>좌우 여백 <b>각 0.5cm</b>, 두 영역 사이 간격 <b>0.5cm</b> 유지</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 [슬라이드 마스터] 탭은 슬라이드 마스터 편집 모드에서만 상단에 나타납니다. 일반 편집 화면에서는 보이지 않아요.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-5">5</div>
+        <div class="step-title">마스터 저장 및 적용 확인</div>
+      </div>
+      <ul>
+        <li>[슬라이드 마스터] 탭 오른쪽 끝 <b>[마스터 보기 닫기]</b> 클릭</li>
+        <li>일반 편집 화면으로 돌아오면, 슬라이드 우클릭 → <b>[레이아웃]</b> 메뉴 확인</li>
+        <li>"표지", "본문", "이미지+텍스트" 3가지 레이아웃이 목록에 있으면 성공</li>
+        <li>각 레이아웃을 선택해 실제 슬라이드에 텍스트 입력 → 서식 자동 적용 확인</li>
+        <li>파일 저장: <b>Ctrl+S</b> (또는 Cmd+S) → .pptx 형식으로 저장</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 완성된 파일은 다음 과제(색 테마 추가, Claude in PPT 실습)에서 그대로 사용합니다. 파일명에 날짜를 붙여 저장해두세요.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 실무 팁 -->
+  <div class="section-label">실무 팁</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h4>마스터 먼저, 내용 나중</h4>
+      <p>슬라이드 마스터를 완성하기 전에 내용을 채우면 서식이 틀어집니다. 항상 마스터 완성 후 내용을 작성하세요.</p>
+    </div>
+    <div class="tip-card">
+      <h4>플레이스홀더 vs 텍스트박스</h4>
+      <p>일반 텍스트박스가 아닌 <b>플레이스홀더</b>를 써야 Claude in PPT가 슬라이드 내용을 정확히 인식합니다.</p>
+    </div>
+    <div class="tip-card">
+      <h4>테마 파일로 저장</h4>
+      <p>[디자인] → [테마 저장] → .thmx 파일로 저장하면, 다른 PPT 파일에도 이 서식을 바로 불러올 수 있습니다.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

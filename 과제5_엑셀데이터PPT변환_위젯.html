@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>과제 5 — 엑셀 데이터를 회사 서식 PPT 보고서로 변환</title>
+<style>
+  :root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #6b7280;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f7f7f8;
+    --color-border-tertiary: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 24px 16px;
+  }
+  .widget { max-width: 680px; margin: 0 auto; }
+
+  .header { margin-bottom: 20px; }
+  .tag-pill {
+    display: inline-block;
+    background: #1a1a1a; color: #fff;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
+    margin-bottom: 10px; margin-right: 6px;
+  }
+  .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
+
+  .intro-box {
+    background: #f0edff; border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 24px;
+    font-size: 14px; line-height: 1.7;
+  }
+
+  .section-label {
+    font-size: 12px; color: var(--color-text-secondary);
+    font-weight: 600; letter-spacing: 0.5px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+
+  .prep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+  .prep-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px; padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .prep-icon-box {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 10px;
+  }
+  .prep-icon-box.purple { background: #e8e6fe; color: #5b4fd4; }
+  .prep-icon-box.green  { background: #d4f4e6; color: #1a8a5c; }
+  .prep-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .prep-card ul { list-style: none; padding: 0; }
+  .prep-card ul li {
+    font-size: 12px; color: var(--color-text-secondary);
+    line-height: 1.7; padding-left: 10px; position: relative;
+  }
+  .prep-card ul li::before { content: "·"; position: absolute; left: 0; }
+
+  .steps { margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .step-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px; padding: 16px 18px;
+    background: var(--color-background-primary);
+  }
+  .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .step-badge {
+    width: 26px; height: 26px; border-radius: 50%;
+    color: #fff; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .badge-1 { background: #7b6cf7; }
+  .badge-2 { background: #3dba8c; }
+  .badge-3 { background: #f5a623; }
+  .badge-4 { background: #e05c5c; }
+  .badge-5 { background: #4a90d9; }
+  .step-title { font-size: 15px; font-weight: 500; }
+  .step-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .step-card ul li {
+    font-size: 13px; line-height: 1.7;
+    padding-left: 14px; position: relative;
+  }
+  .step-card ul li::before { content: "•"; position: absolute; left: 0; color: var(--color-text-secondary); }
+  .step-sub-box {
+    background: var(--color-background-secondary);
+    border-radius: 8px; padding: 12px 14px;
+    font-size: 12px; color: var(--color-text-secondary);
+    line-height: 1.7; margin-top: 10px;
+  }
+
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .tip-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 10px; padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .tip-card h4 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .tip-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="widget">
+
+  <div class="header">
+    <div>
+      <span class="tag-pill">Claude in PPT</span>
+      <span class="tag-pill">엑셀 연동</span>
+      <span class="tag-pill">보고서 자동화</span>
+    </div>
+    <div class="title">과제 5 — 엑셀 데이터를<br>회사 서식 PPT 보고서로 변환</div>
+  </div>
+
+  <div class="intro-box">
+    엑셀에 정리된 <b>표와 수치 데이터</b>를 복사해 Claude in PPT에게 전달하면, 과제 1~2에서 만든 <b>회사 슬라이드 마스터 서식과 색 테마</b>가 자동 적용된 PPT 보고서로 변환됩니다.
+    이 과제는 앞선 4개 과제의 결과물을 모두 활용하는 <b>종합 실습</b>입니다.
+  </div>
+
+  <div class="section-label">사전 준비</div>
+  <div class="prep-grid">
+    <div class="prep-card">
+      <div class="prep-icon-box purple">🛠</div>
+      <h4>준비물</h4>
+      <ul>
+        <li>과제 1~4에서 완성한 .pptx 파일 (마스터+색테마 적용)</li>
+        <li>실습용 엑셀 파일 또는 샘플 표 데이터</li>
+        <li>Microsoft Excel (없으면 구글 스프레드시트 사용 가능)</li>
+      </ul>
+    </div>
+    <div class="prep-card">
+      <div class="prep-icon-box green">✅</div>
+      <h4>샘플 데이터 만들기</h4>
+      <ul>
+        <li>엑셀 새 파일 열기 → A1부터 아래 데이터 입력:</li>
+        <li>월 / 매출(만원) / 목표(만원) / 달성률(%)</li>
+        <li>1월 / 1200 / 1000 / 120%</li>
+        <li>2월 / 950 / 1000 / 95%</li>
+        <li>3월 / 1350 / 1200 / 112%</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">단계별 실습</div>
+  <div class="steps">
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-1">1</div>
+        <div class="step-title">엑셀 데이터를 텍스트로 복사해 Claude에게 전달하기</div>
+      </div>
+      <ul>
+        <li>엑셀에서 표 전체 선택 (A1부터 데이터 끝까지) → <b>Ctrl+C</b></li>
+        <li>PPT의 Claude 패널 입력창 클릭 → <b>Ctrl+V</b>로 데이터 붙여넣기</li>
+        <li>붙여넣은 데이터 아래에 이어서 프롬프트 입력:</li>
+        <li><b>"위 데이터를 이용해 회사 서식이 적용된 PPT 보고서를 만들어줘. 슬라이드마다 표와 차트를 포함해줘."</b></li>
+        <li>Enter 전송</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 엑셀 데이터를 그대로 붙여넣으면 탭으로 구분된 텍스트로 복사됩니다. Claude가 이를 자동으로 표로 인식합니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-2">2</div>
+        <div class="step-title">생성된 슬라이드에 마스터 서식이 적용됐는지 확인하기</div>
+      </div>
+      <ul>
+        <li>Claude가 슬라이드를 자동 생성하면 각 슬라이드 확인</li>
+        <li>슬라이드 우클릭 → <b>[레이아웃]</b> → 과제 1에서 만든 레이아웃이 적용됐는지 확인</li>
+        <li>폰트와 색상이 과제 1~2의 마스터/테마와 일치하는지 확인</li>
+        <li>일치하지 않으면: 해당 슬라이드 선택 → [홈] → [레이아웃] → 원하는 레이아웃 수동 적용</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 Claude가 생성한 슬라이드가 마스터 서식을 완전히 따르지 않을 수 있습니다. 이런 경우 레이아웃을 수동으로 지정하면 됩니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-3">3</div>
+        <div class="step-title">차트 슬라이드 추가 요청하기</div>
+      </div>
+      <ul>
+        <li>Claude 패널에 추가 요청 입력:</li>
+        <li><b>"매출과 목표를 비교하는 막대 차트 슬라이드를 하나 더 만들어줘. 회사 색 테마 적용해줘."</b></li>
+        <li>생성된 차트 슬라이드 확인</li>
+        <li>차트 클릭 → 우클릭 → <b>[데이터 편집]</b> → 실제 데이터가 맞게 들어갔는지 확인</li>
+        <li>틀린 수치가 있으면 데이터 편집 창에서 직접 수정</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 차트 수치가 잘못 들어간 경우 Claude에게 "차트 데이터를 다시 확인하고 수정해줘"라고 요청하거나 직접 수정하세요.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-4">4</div>
+        <div class="step-title">요약 분석 슬라이드 자동 생성하기</div>
+      </div>
+      <ul>
+        <li>Claude 패널에 입력:</li>
+        <li><b>"이 데이터를 분석해서 핵심 인사이트 3가지를 요약한 슬라이드를 만들어줘"</b></li>
+        <li>Claude가 데이터 패턴을 분석해 자동으로 요약 슬라이드 생성</li>
+        <li>생성된 내용이 실제 데이터와 일치하는지 수치 검토</li>
+        <li>인사이트 문구를 더 구체적으로 수정하고 싶으면 직접 텍스트 편집</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 AI가 생성한 인사이트는 반드시 사람이 검토해야 합니다. 수치 해석이 실제 상황과 다를 수 있으니 꼭 확인하세요.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-5">5</div>
+        <div class="step-title">전체 보고서 검토 후 최종 저장하기</div>
+      </div>
+      <ul>
+        <li><b>F5</b>로 슬라이드쇼 실행 → 처음부터 끝까지 검토</li>
+        <li>확인 항목: ① 회사 로고/색상 일관 적용 ② 수치 정확성 ③ 오탈자 없음 ④ 슬라이드 흐름</li>
+        <li>수정 사항은 Claude 패널 또는 직접 편집으로 처리</li>
+        <li>완료 후 <b>Ctrl+S</b> 저장</li>
+        <li>추가로 PDF 내보내기: [파일] → [내보내기] → [PDF/XPS 만들기] → 저장</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 PDF로도 저장해두면 폰트/레이아웃이 깨지지 않아 상사나 고객에게 공유하기 좋습니다.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">실무 팁</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h4>데이터 먼저 정리</h4>
+      <p>엑셀 데이터를 Claude에게 넘기기 전에 빈 행/열, 합계 행을 깔끔하게 정리해두면 훨씬 정확한 슬라이드가 생성됩니다.</p>
+    </div>
+    <div class="tip-card">
+      <h4>수치는 반드시 검토</h4>
+      <p>AI가 생성한 차트와 인사이트의 수치는 반드시 원본 엑셀과 대조해 검토하세요. 자동화와 검토는 함께 합니다.</p>
+    </div>
+    <div class="tip-card">
+      <h4>PDF 최종 배포</h4>
+      <p>완성된 보고서는 PDF로 내보내기 하면 어떤 기기에서 열어도 서식이 그대로 유지됩니다.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

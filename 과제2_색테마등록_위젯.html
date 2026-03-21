@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>과제 2 — 회사 색 테마 등록하기</title>
+<style>
+  :root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #6b7280;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f7f7f8;
+    --color-border-tertiary: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 24px 16px;
+  }
+  .widget { max-width: 680px; margin: 0 auto; }
+
+  .header { margin-bottom: 20px; }
+  .tag-pill {
+    display: inline-block;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    margin-right: 6px;
+  }
+  .title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--color-text-primary);
+  }
+
+  .intro-box {
+    background: #f0edff;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--color-text-primary);
+  }
+
+  .section-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .prep-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .prep-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .prep-icon-box {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 10px;
+  }
+  .prep-icon-box.purple { background: #e8e6fe; color: #5b4fd4; }
+  .prep-icon-box.green  { background: #d4f4e6; color: #1a8a5c; }
+  .prep-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .prep-card ul { list-style: none; padding: 0; }
+  .prep-card ul li {
+    font-size: 12px; color: var(--color-text-secondary);
+    line-height: 1.7; padding-left: 10px; position: relative;
+  }
+  .prep-card ul li::before { content: "·"; position: absolute; left: 0; }
+
+  .steps { margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .step-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px; padding: 16px 18px;
+    background: var(--color-background-primary);
+  }
+  .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .step-badge {
+    width: 26px; height: 26px; border-radius: 50%;
+    color: #fff; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .badge-1 { background: #7b6cf7; }
+  .badge-2 { background: #3dba8c; }
+  .badge-3 { background: #f5a623; }
+  .badge-4 { background: #e05c5c; }
+  .badge-5 { background: #4a90d9; }
+  .step-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .step-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .step-card ul li {
+    font-size: 13px; line-height: 1.7;
+    color: var(--color-text-primary); padding-left: 14px; position: relative;
+  }
+  .step-card ul li::before { content: "•"; position: absolute; left: 0; color: var(--color-text-secondary); }
+  .step-sub-box {
+    background: var(--color-background-secondary);
+    border-radius: 8px; padding: 12px 14px;
+    font-size: 12px; color: var(--color-text-secondary);
+    line-height: 1.7; margin-top: 10px;
+  }
+
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .tip-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 10px; padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .tip-card h4 { font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--color-text-primary); }
+  .tip-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="widget">
+
+  <div class="header">
+    <div>
+      <span class="tag-pill">PPT 자동화</span>
+      <span class="tag-pill">색 테마</span>
+      <span class="tag-pill">슬라이드 마스터</span>
+    </div>
+    <div class="title">과제 2 — 회사 색 테마 등록하기</div>
+  </div>
+
+  <div class="intro-box">
+    회사(또는 본인) 브랜드 컬러를 <b>슬라이드 마스터 색상 팔레트</b>에 등록하고, <b>.thmx 테마 파일</b>로 저장하여 언제든 재사용할 수 있게 만들어봅니다.
+    색 테마를 한 번 등록하면 PPT 어디서나 클릭 한 번으로 회사 컬러를 적용할 수 있어, Claude in PPT가 슬라이드를 생성할 때도 자동으로 브랜드 색상이 유지됩니다.
+  </div>
+
+  <div class="section-label">사전 준비</div>
+  <div class="prep-grid">
+    <div class="prep-card">
+      <div class="prep-icon-box purple">🎨</div>
+      <h4>준비물</h4>
+      <ul>
+        <li>과제 1에서 저장한 .pptx 파일</li>
+        <li>회사 메인 컬러 HEX 코드 (예: #1E3A8A)</li>
+        <li>보조 컬러 HEX 코드 1~2개 (없으면 임의 생성)</li>
+      </ul>
+    </div>
+    <div class="prep-card">
+      <div class="prep-icon-box green">✅</div>
+      <h4>HEX 코드 찾는 법</h4>
+      <ul>
+        <li>회사 홈페이지 로고 이미지를 캡처</li>
+        <li>Windows: Win+Shift+S 로 캡처 후 그림판에서 색 추출</li>
+        <li>또는 구글에서 "color picker" 검색해 색상 코드 확인</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">단계별 실습</div>
+  <div class="steps">
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-1">1</div>
+        <div class="step-title">슬라이드 마스터에서 색 테마 편집 화면 열기</div>
+      </div>
+      <ul>
+        <li>과제 1 파일 열기 → [보기] → [슬라이드 마스터] 진입</li>
+        <li>상단 [슬라이드 마스터] 탭에서 <b>[색]</b> 버튼 클릭</li>
+        <li>드롭다운 목록 맨 아래 <b>[색 사용자 지정...]</b> 클릭</li>
+        <li>"새 테마 색 만들기" 창이 열림</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 [색] 버튼이 안 보이면 PowerPoint 창을 넓게 늘려보세요. 창이 좁으면 일부 버튼이 숨겨집니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-2">2</div>
+        <div class="step-title">강조색(Accent) 컬러를 회사 색으로 변경하기</div>
+      </div>
+      <ul>
+        <li>"새 테마 색 만들기" 창에서 <b>[강조 1]</b> 옆 색상 버튼 클릭</li>
+        <li>색 선택 창 하단 <b>[다른 색...]</b> 클릭 → [사용자 지정] 탭 선택</li>
+        <li>HEX 코드 입력란에 회사 메인 컬러 코드 입력 (예: 1E3A8A)</li>
+        <li>확인 → 강조 1 색이 변경된 것 확인</li>
+        <li>동일 방법으로 <b>[강조 2]</b>에 보조 컬러 입력</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 HEX 코드 입력 시 # 기호는 제외하고 숫자+영문만 입력하세요. 예: #1E3A8A → 1E3A8A
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-3">3</div>
+        <div class="step-title">텍스트/배경 색도 브랜드에 맞게 조정하기</div>
+      </div>
+      <ul>
+        <li>같은 창에서 <b>[텍스트/배경 - 어둡게 1]</b> → 회사 메인 다크 컬러로 변경</li>
+        <li><b>[텍스트/배경 - 밝게 1]</b> → 흰색(#FFFFFF) 또는 연한 배경색 유지</li>
+        <li>오른쪽 미리보기에서 전체 색 조합 확인</li>
+        <li>아래 <b>[이름]</b>란에 "회사명_테마" 형식으로 이름 입력 (예: ABC_테마)</li>
+        <li><b>[저장]</b> 클릭</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 텍스트/배경 색을 너무 강한 색으로 바꾸면 가독성이 떨어집니다. 어두운 색은 제목용, 밝은 색은 배경용으로 구분하세요.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-4">4</div>
+        <div class="step-title">색 테마가 적용됐는지 확인하기</div>
+      </div>
+      <ul>
+        <li>[마스터 보기 닫기] 클릭해 일반 편집 화면으로 복귀</li>
+        <li>슬라이드에 텍스트박스 삽입 → 텍스트 선택 → 글꼴 색 버튼 옆 드롭다운 클릭</li>
+        <li>색상 팔레트에 방금 등록한 회사 컬러가 <b>"테마 색"</b> 영역에 표시되면 성공</li>
+        <li>도형 삽입 후 [도형 채우기]에서도 동일하게 테마 색 확인</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 테마 색으로 칠해진 요소는 나중에 테마를 바꿔도 자동으로 색이 업데이트됩니다. 일반 색을 쓰면 업데이트가 안 됩니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-5">5</div>
+        <div class="step-title">테마를 .thmx 파일로 저장해 재사용 가능하게 만들기</div>
+      </div>
+      <ul>
+        <li>상단 [디자인] 탭 클릭</li>
+        <li>테마 목록 오른쪽 끝 <b>[▼ 더보기]</b> 클릭</li>
+        <li>드롭다운 하단 <b>[현재 테마 저장...]</b> 클릭</li>
+        <li>파일명 입력 (예: ABC회사_테마) → <b>[저장]</b></li>
+        <li>이후 어떤 PPT 파일에서든 [디자인] → [테마] → 목록에서 내 테마 선택 가능</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 .thmx 파일은 기본적으로 C:\Users\[사용자명]\AppData\Roaming\Microsoft\Templates\Document Themes\ 에 저장됩니다. 팀원과 공유하려면 이 파일을 전달하세요.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">실무 팁</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h4>HEX 코드 구하기</h4>
+      <p>회사 홈페이지 로고를 캡처 후 구글 "color picker"에 붙여넣으면 HEX 코드를 바로 확인할 수 있습니다.</p>
+    </div>
+    <div class="tip-card">
+      <h4>테마 색 vs 직접 색</h4>
+      <p>반드시 <b>테마 색</b>으로 칠해야 나중에 테마 교체 시 자동 업데이트됩니다. 직접 선택한 색은 업데이트 안 됩니다.</p>
+    </div>
+    <div class="tip-card">
+      <h4>팀원과 공유</h4>
+      <p>.thmx 파일을 공유 드라이브에 올려두면 팀 전체가 동일한 색 테마를 적용할 수 있습니다.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

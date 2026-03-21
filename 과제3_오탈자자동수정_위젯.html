@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>과제 3 — Claude in PPT로 오탈자 자동 검색/수정</title>
+<style>
+  :root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #6b7280;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f7f7f8;
+    --color-border-tertiary: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 24px 16px;
+  }
+  .widget { max-width: 680px; margin: 0 auto; }
+
+  .header { margin-bottom: 20px; }
+  .tag-pill {
+    display: inline-block;
+    background: #1a1a1a; color: #fff;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
+    margin-bottom: 10px; margin-right: 6px;
+  }
+  .title { font-size: 22px; font-weight: 700; line-height: 1.35; color: var(--color-text-primary); }
+
+  .intro-box {
+    background: #f0edff; border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 24px;
+    font-size: 14px; line-height: 1.7; color: var(--color-text-primary);
+  }
+
+  .section-label {
+    font-size: 12px; color: var(--color-text-secondary);
+    font-weight: 600; letter-spacing: 0.5px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+
+  .prep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+  .prep-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px; padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .prep-icon-box {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 10px;
+  }
+  .prep-icon-box.purple { background: #e8e6fe; color: #5b4fd4; }
+  .prep-icon-box.green  { background: #d4f4e6; color: #1a8a5c; }
+  .prep-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .prep-card ul { list-style: none; padding: 0; }
+  .prep-card ul li {
+    font-size: 12px; color: var(--color-text-secondary);
+    line-height: 1.7; padding-left: 10px; position: relative;
+  }
+  .prep-card ul li::before { content: "·"; position: absolute; left: 0; }
+
+  .steps { margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .step-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px; padding: 16px 18px;
+    background: var(--color-background-primary);
+  }
+  .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .step-badge {
+    width: 26px; height: 26px; border-radius: 50%;
+    color: #fff; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .badge-1 { background: #7b6cf7; }
+  .badge-2 { background: #3dba8c; }
+  .badge-3 { background: #f5a623; }
+  .badge-4 { background: #e05c5c; }
+  .badge-5 { background: #4a90d9; }
+  .step-title { font-size: 15px; font-weight: 500; }
+  .step-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .step-card ul li {
+    font-size: 13px; line-height: 1.7;
+    color: var(--color-text-primary); padding-left: 14px; position: relative;
+  }
+  .step-card ul li::before { content: "•"; position: absolute; left: 0; color: var(--color-text-secondary); }
+  .step-sub-box {
+    background: var(--color-background-secondary);
+    border-radius: 8px; padding: 12px 14px;
+    font-size: 12px; color: var(--color-text-secondary);
+    line-height: 1.7; margin-top: 10px;
+  }
+
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .tip-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 10px; padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .tip-card h4 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .tip-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="widget">
+
+  <div class="header">
+    <div>
+      <span class="tag-pill">Claude in PPT</span>
+      <span class="tag-pill">오탈자 수정</span>
+      <span class="tag-pill">AI 자동화</span>
+    </div>
+    <div class="title">과제 3 — Claude in PPT로<br>오탈자 자동 검색/수정</div>
+  </div>
+
+  <div class="intro-box">
+    PPT 추가기능 <b>Claude in PPT</b>를 설치하고, 슬라이드 전체의 오탈자를 AI가 자동으로 찾아 수정하는 기능을 실습합니다.
+    수십 장짜리 보고서도 <b>프롬프트 한 줄</b>로 전체 교정이 가능하며, 수정 전후를 비교해 최종 확인하는 과정까지 연습합니다.
+  </div>
+
+  <div class="section-label">사전 준비</div>
+  <div class="prep-grid">
+    <div class="prep-card">
+      <div class="prep-icon-box purple">🛠</div>
+      <h4>준비물</h4>
+      <ul>
+        <li>과제 1~2에서 만든 .pptx 파일</li>
+        <li>Claude.ai 계정 (무료 플랜 가능)</li>
+        <li>Claude in PPT 추가기능 설치 완료</li>
+      </ul>
+    </div>
+    <div class="prep-card">
+      <div class="prep-icon-box green">✅</div>
+      <h4>설치 확인</h4>
+      <ul>
+        <li>PPT 상단 [홈] 탭 또는 [추가기능] 탭에 "Claude" 아이콘 있으면 설치 완료</li>
+        <li>없으면: [삽입] → [추가기능 가져오기] → "Claude" 검색 → 추가</li>
+        <li>처음 실행 시 Claude 계정 로그인 필요</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">단계별 실습</div>
+  <div class="steps">
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-1">1</div>
+        <div class="step-title">오탈자가 포함된 실습용 슬라이드 만들기</div>
+      </div>
+      <ul>
+        <li>과제 1~2 파일 열기 → "본문" 레이아웃으로 슬라이드 3장 추가</li>
+        <li>각 슬라이드에 의도적으로 오탈자 포함한 텍스트 입력</li>
+        <li>예시 오탈자: "보고서를 작셩했습니다", "매출이 증가하였슴니다", "결과를 분석 하였다"</li>
+        <li>띄어쓰기 오류도 포함: "사업계획서를작성합니다", "내용을 확인 해주세요"</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 실습용 오탈자를 직접 만드는 이유: 수정 전/후를 눈으로 비교할 수 있어야 Claude가 제대로 동작했는지 확인이 됩니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-2">2</div>
+        <div class="step-title">Claude in PPT 실행하기</div>
+      </div>
+      <ul>
+        <li>PPT 상단 탭에서 <b>[Claude]</b> 아이콘 클릭</li>
+        <li>우측에 Claude 패널이 열림</li>
+        <li>아직 로그인이 안 됐다면 <b>[Sign in]</b> 클릭 → Claude.ai 계정으로 로그인</li>
+        <li>로그인 후 패널 상단에 대화 입력창이 보이면 준비 완료</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 Claude in PPT는 현재 열려 있는 PPT 파일의 내용을 자동으로 읽습니다. 별도로 파일을 업로드할 필요가 없습니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-3">3</div>
+        <div class="step-title">오탈자 검색 프롬프트 입력하기</div>
+      </div>
+      <ul>
+        <li>Claude 패널 입력창에 아래 프롬프트 입력:</li>
+        <li><b>"이 PPT의 모든 슬라이드에서 오탈자, 띄어쓰기 오류를 찾아서 목록으로 알려줘"</b></li>
+        <li>Enter 또는 전송 버튼 클릭</li>
+        <li>Claude가 슬라이드를 분석해 오류 목록을 응답으로 출력</li>
+        <li>응답 내용 확인: 슬라이드 번호, 오류 텍스트, 수정 제안 형태로 나오면 정상</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 응답이 영어로 나오면 프롬프트에 "한국어로 답변해줘"를 추가하세요.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-4">4</div>
+        <div class="step-title">오탈자 자동 수정 적용하기</div>
+      </div>
+      <ul>
+        <li>Claude 응답 확인 후, 입력창에 다음 프롬프트 입력:</li>
+        <li><b>"찾아낸 오탈자를 모두 자동으로 수정해줘"</b></li>
+        <li>Claude가 각 슬라이드를 직접 수정하는 과정이 화면에 표시됨</li>
+        <li>수정 완료 후 각 슬라이드로 이동해 변경된 내용 눈으로 확인</li>
+        <li>원치 않는 수정이 있으면 <b>Ctrl+Z</b>로 해당 부분 되돌리기</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 자동 수정 전에 파일을 <b>다른 이름으로 저장(Ctrl+Shift+S)</b>해두세요. 수정 결과가 마음에 안 들면 원본으로 되돌릴 수 있습니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-5">5</div>
+        <div class="step-title">수정 전/후 비교하고 최종 저장하기</div>
+      </div>
+      <ul>
+        <li>수정된 슬라이드를 처음부터 끝까지 슬라이드쇼로 검토: <b>F5</b></li>
+        <li>오탈자가 없어졌는지, 의미가 바뀐 부분은 없는지 확인</li>
+        <li>추가 수정이 필요하면 Claude 패널에서 구체적으로 지시 (예: "3번 슬라이드 2번째 줄만 다시 확인해줘")</li>
+        <li>이상 없으면 <b>Ctrl+S</b>로 최종 저장</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 Claude는 문맥상 어색한 표현도 제안해줍니다. 오탈자 수정 외에 "문장을 더 자연스럽게 다듬어줘"도 시도해보세요.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">실무 팁</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h4>수정 전 백업 필수</h4>
+      <p>자동 수정 전에 반드시 <b>다른 이름으로 저장</b>하세요. AI 수정 결과가 예상과 다를 수 있습니다.</p>
+    </div>
+    <div class="tip-card">
+      <h4>범위 지정 수정</h4>
+      <p>특정 슬라이드만 수정하려면 "3번~5번 슬라이드만 확인해줘"처럼 범위를 지정하면 더 정확합니다.</p>
+    </div>
+    <div class="tip-card">
+      <h4>문체 통일도 가능</h4>
+      <p>"모든 문장을 합쇼체로 통일해줘" 같은 문체 교정도 동일한 방식으로 요청할 수 있습니다.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

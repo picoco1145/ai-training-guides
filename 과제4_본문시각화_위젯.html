@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>과제 4 — 본문 내용 자동 시각화</title>
+<style>
+  :root {
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #6b7280;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f7f7f8;
+    --color-border-tertiary: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 24px 16px;
+  }
+  .widget { max-width: 680px; margin: 0 auto; }
+
+  .header { margin-bottom: 20px; }
+  .tag-pill {
+    display: inline-block;
+    background: #1a1a1a; color: #fff;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
+    margin-bottom: 10px; margin-right: 6px;
+  }
+  .title { font-size: 22px; font-weight: 700; line-height: 1.35; }
+
+  .intro-box {
+    background: #f0edff; border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 24px;
+    font-size: 14px; line-height: 1.7;
+  }
+
+  .section-label {
+    font-size: 12px; color: var(--color-text-secondary);
+    font-weight: 600; letter-spacing: 0.5px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+
+  .prep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+  .prep-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px; padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .prep-icon-box {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 10px;
+  }
+  .prep-icon-box.purple { background: #e8e6fe; color: #5b4fd4; }
+  .prep-icon-box.green  { background: #d4f4e6; color: #1a8a5c; }
+  .prep-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .prep-card ul { list-style: none; padding: 0; }
+  .prep-card ul li {
+    font-size: 12px; color: var(--color-text-secondary);
+    line-height: 1.7; padding-left: 10px; position: relative;
+  }
+  .prep-card ul li::before { content: "·"; position: absolute; left: 0; }
+
+  .steps { margin-bottom: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .step-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 12px; padding: 16px 18px;
+    background: var(--color-background-primary);
+  }
+  .step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .step-badge {
+    width: 26px; height: 26px; border-radius: 50%;
+    color: #fff; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .badge-1 { background: #7b6cf7; }
+  .badge-2 { background: #3dba8c; }
+  .badge-3 { background: #f5a623; }
+  .badge-4 { background: #e05c5c; }
+  .badge-5 { background: #4a90d9; }
+  .step-title { font-size: 15px; font-weight: 500; }
+  .step-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .step-card ul li {
+    font-size: 13px; line-height: 1.7;
+    padding-left: 14px; position: relative;
+  }
+  .step-card ul li::before { content: "•"; position: absolute; left: 0; color: var(--color-text-secondary); }
+  .step-sub-box {
+    background: var(--color-background-secondary);
+    border-radius: 8px; padding: 12px 14px;
+    font-size: 12px; color: var(--color-text-secondary);
+    line-height: 1.7; margin-top: 10px;
+  }
+
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .tip-card {
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 10px; padding: 14px 16px;
+    background: var(--color-background-primary);
+  }
+  .tip-card h4 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .tip-card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="widget">
+
+  <div class="header">
+    <div>
+      <span class="tag-pill">Claude in PPT</span>
+      <span class="tag-pill">시각화</span>
+      <span class="tag-pill">인포그래픽</span>
+    </div>
+    <div class="title">과제 4 — 본문 내용 자동 시각화</div>
+  </div>
+
+  <div class="intro-box">
+    텍스트로만 가득 찬 슬라이드를 <b>Claude in PPT</b>에게 넘겨, 도표·아이콘·인포그래픽으로 자동 변환하는 기능을 실습합니다.
+    시각화 전후를 <b>직접 캡처해 비교</b>하고, 프롬프트를 다르게 입력했을 때 결과가 어떻게 달라지는지도 확인합니다.
+  </div>
+
+  <div class="section-label">사전 준비</div>
+  <div class="prep-grid">
+    <div class="prep-card">
+      <div class="prep-icon-box purple">🛠</div>
+      <h4>준비물</h4>
+      <ul>
+        <li>과제 1~3에서 사용한 .pptx 파일</li>
+        <li>Claude in PPT 로그인 상태 유지</li>
+        <li>화면 캡처 도구 (Windows: Win+Shift+S)</li>
+      </ul>
+    </div>
+    <div class="prep-card">
+      <div class="prep-icon-box green">✅</div>
+      <h4>실습용 텍스트 예시</h4>
+      <ul>
+        <li>슬라이드에 아래 내용을 텍스트로만 입력해두기</li>
+        <li>예: "1단계: 목표 설정 / 2단계: 전략 수립 / 3단계: 실행 / 4단계: 평가"</li>
+        <li>또는: "매출 30% 증가 / 고객 만족도 95% / 신규 고객 200명 확보"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-label">단계별 실습</div>
+  <div class="steps">
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-1">1</div>
+        <div class="step-title">시각화 전 슬라이드 캡처해두기</div>
+      </div>
+      <ul>
+        <li>텍스트만 있는 슬라이드로 이동</li>
+        <li><b>Win+Shift+S</b> (Mac: Cmd+Shift+4) → 슬라이드 영역 드래그해서 캡처</li>
+        <li>캡처 이미지를 바탕화면에 "시각화_전.png"로 저장</li>
+        <li>이 캡처가 나중에 "전/후 비교"의 기준이 됩니다</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 캡처 없이 진행하면 원래 상태로 되돌아가기 어렵습니다. 꼭 먼저 캡처하세요.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-2">2</div>
+        <div class="step-title">순서 흐름이 있는 텍스트 → 화살표 다이어그램으로 변환</div>
+      </div>
+      <ul>
+        <li>Claude 패널 입력창에 프롬프트 입력:</li>
+        <li><b>"현재 슬라이드의 텍스트 내용을 순서 흐름을 보여주는 화살표 다이어그램으로 시각화해줘"</b></li>
+        <li>Claude가 도형과 화살표를 자동으로 삽입하는 것을 확인</li>
+        <li>결과 슬라이드 캡처 → "시각화_후_흐름도.png"로 저장</li>
+        <li>전/후 이미지를 나란히 놓고 비교</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 결과가 마음에 들지 않으면 Ctrl+Z로 되돌리고 다시 시도하세요. 같은 프롬프트도 실행마다 결과가 조금씩 다를 수 있습니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-3">3</div>
+        <div class="step-title">수치 데이터 → 아이콘+숫자 인포그래픽으로 변환</div>
+      </div>
+      <ul>
+        <li>수치가 담긴 새 슬라이드로 이동 (예: 매출 30% 증가, 고객 만족도 95%)</li>
+        <li>Claude 패널에 프롬프트 입력:</li>
+        <li><b>"이 슬라이드의 수치 데이터를 아이콘과 숫자를 강조한 인포그래픽 스타일로 바꿔줘. 회사 색 테마를 유지해줘."</b></li>
+        <li>결과 확인 후 캡처 → "시각화_후_인포그래픽.png"로 저장</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 "회사 색 테마를 유지해줘"를 넣으면 과제 2에서 등록한 색상으로 시각화됩니다. 빼면 기본 색으로 생성됩니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-4">4</div>
+        <div class="step-title">프롬프트를 바꿔서 다른 스타일로 재시각화</div>
+      </div>
+      <ul>
+        <li>Ctrl+Z로 직전 시각화 결과를 되돌리기</li>
+        <li>이번엔 다른 스타일로 요청:</li>
+        <li><b>"이 슬라이드를 비교 표(테이블) 형식으로 시각화해줘"</b></li>
+        <li>또는: <b>"이 내용을 피라미드 다이어그램으로 만들어줘"</b></li>
+        <li>결과를 캡처해서 앞의 결과와 비교 — 어떤 스타일이 내용 전달에 더 적합한지 판단</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 "표", "원형차트", "막대그래프", "피라미드", "타임라인" 등 원하는 도표 종류를 직접 명시하면 더 정확한 결과가 나옵니다.
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-header">
+        <div class="step-badge badge-5">5</div>
+        <div class="step-title">전/후 비교 캡처를 새 슬라이드에 정리하기</div>
+      </div>
+      <ul>
+        <li>새 슬라이드 추가 → 제목: "시각화 전/후 비교"</li>
+        <li>[삽입] → [그림] → "시각화_전.png" 삽입 → 좌측 배치</li>
+        <li>동일하게 "시각화_후_흐름도.png" 또는 "시각화_후_인포그래픽.png" → 우측 배치</li>
+        <li>각 이미지 아래 텍스트박스로 "전", "후" 레이블 추가</li>
+        <li>Ctrl+S 최종 저장</li>
+      </ul>
+      <div class="step-sub-box">
+        💡 전/후 비교 슬라이드를 만들면 보고서나 발표에서 "AI 활용 전후"를 직접 보여줄 수 있어 설득력이 높아집니다.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">실무 팁</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <h4>도표 종류 직접 명시</h4>
+      <p>"시각화해줘"보다 "타임라인으로 만들어줘"처럼 구체적인 종류를 명시할수록 원하는 결과가 나옵니다.</p>
+    </div>
+    <div class="tip-card">
+      <h4>색 테마 연동</h4>
+      <p>프롬프트에 "회사 색 테마 유지"를 명시하면 과제 2에서 등록한 브랜드 컬러가 자동 반영됩니다.</p>
+    </div>
+    <div class="tip-card">
+      <h4>원본 항상 백업</h4>
+      <p>시각화 전 슬라이드를 별도 파일로 저장해두면 여러 스타일을 비교 실험할 때 원본을 잃지 않습니다.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
