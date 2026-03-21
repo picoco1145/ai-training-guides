@@ -1,0 +1,16 @@
+[2026-03-21T10:10:58.461Z] [info] LegacyDataMixin will be applied to all legacy elements.
+Set `_legacyUndefinedCheck: true` on element class to enable.
+[2026-03-21T10:10:58.662Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:10:59.603Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:10:59.603Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:10:59.822Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:10:59.823Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:11:00.047Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:11:00.047Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:11:00.413Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:11:00.414Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:11:00.734Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:11:00.735Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:11:01.055Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:11:01.056Z] [error] Failed to load resource: the server responded with a status of 403 ()
+[2026-03-21T10:11:01.894Z] [error] Failed to load resource: net::ERR_FILE_NOT_FOUND

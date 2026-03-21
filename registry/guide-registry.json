@@ -1,1 +1,70 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "클로드 프로젝트로 글쓰기 맥락 잡기",
+    "status": "콘텐츠완성",
+    "tool": ["Claude"],
+    "topic": "프롬프트 기법",
+    "created": "2026-03-21",
+    "reviewed": true,
+    "review_date": "2026-03-21",
+    "files": {
+      "brief": "outputs/guides/01_brief.md",
+      "content": "outputs/guides/01_클로드_프로젝트_글쓰기_맥락.md",
+      "review": "outputs/reviews/01_review.md"
+    },
+    "source": "https://youtu.be/9SLS0Xqe9KM",
+    "notion_page": null
+  },
+  {
+    "id": 2,
+    "title": "클로드 커스텀 스타일로 내 말투 저장하기",
+    "status": "콘텐츠완성",
+    "tool": ["Claude", "ChatGPT"],
+    "topic": "프롬프트 기법",
+    "created": "2026-03-21",
+    "reviewed": true,
+    "review_date": "2026-03-21",
+    "files": {
+      "brief": "outputs/guides/02_brief.md",
+      "content": "outputs/guides/02_클로드_커스텀_스타일_말투_저장.md",
+      "review": "outputs/reviews/02_review.md"
+    },
+    "source": "https://youtu.be/9SLS0Xqe9KM",
+    "notion_page": null
+  },
+  {
+    "id": 3,
+    "title": "클로드 스킬로 글쓰기 절차 자동화하기",
+    "status": "콘텐츠완성",
+    "tool": ["Claude"],
+    "topic": "자동화",
+    "created": "2026-03-21",
+    "reviewed": true,
+    "review_date": "2026-03-21",
+    "files": {
+      "brief": "outputs/guides/03_brief.md",
+      "content": "outputs/guides/03_클로드_스킬_글쓰기_자동화.md",
+      "review": "outputs/reviews/03_review.md"
+    },
+    "source": "https://youtu.be/9SLS0Xqe9KM",
+    "notion_page": null
+  },
+  {
+    "id": 4,
+    "title": "프로젝트+스타일+스킬 3종 세트 통합 테스트",
+    "status": "콘텐츠완성",
+    "tool": ["Claude"],
+    "topic": "자동화",
+    "created": "2026-03-21",
+    "reviewed": true,
+    "review_date": "2026-03-21",
+    "files": {
+      "brief": "outputs/guides/04_brief.md",
+      "content": "outputs/guides/04_프로젝트_스타일_스킬_통합테스트.md",
+      "review": "outputs/reviews/04_review.md"
+    },
+    "source": "https://youtu.be/9SLS0Xqe9KM",
+    "notion_page": null
+  }
+]
