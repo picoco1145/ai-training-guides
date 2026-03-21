@@ -1,0 +1,18 @@
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# 이미지 출력 (선택적 - 필요 시 추적)
+# outputs/images/
+
+# Notion API 키 등 시크릿
+.env
+*.secret
+
+# 에디터
+.vscode/
+.idea/
