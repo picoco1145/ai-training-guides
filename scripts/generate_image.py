@@ -28,7 +28,7 @@ def generate_image(prompt: str, style: str, output_path: Path) -> Path:
 
     api_key = load_api_key()
     client = genai.Client(api_key=api_key)
-    model = "gemini-2.5-flash-image"
+    model = "gemini-3.1-flash-image-preview"
 
     # 스타일별 프롬프트 보강
     style_prefix = {

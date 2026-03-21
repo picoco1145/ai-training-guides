@@ -43,6 +43,7 @@ scripts/       # Python 유틸리티 (이미지 생성, 캡처, Notion 업로드
 - **planner** (Opus) — 링크/내용 분석 → 과제 도출 → 기획서 → 사용자 점검
 - **content-writer** (Sonnet) — 콘텐츠 작성 + 이미지 지시서 (위치, 유형, 프롬프트)
 - **image-producer** (Sonnet) — 이미지 소스 판단(캡처 vs 생성) → 제작 → 어노테이션
+- **image-reviewer** (Sonnet) — 이미지 품질 검수 전담: 내용 정합성·어노테이션 정확성·캡처 품질 3항목 점검. 문제 발견 시 image-producer에게 재작업 요청
 - **reviewer** (Sonnet) — 초보자가 그대로 따라할 수 있는지 검수
 - **publisher** (Sonnet) — Notion File Upload API로 이미지 직접 업로드 + 블록 구성
 - **debugger** (Sonnet) — API 에러, 이미지 생성 실패 분석
@@ -68,6 +69,11 @@ content-writer → 콘텐츠 + 이미지 지시서
   ↓
 image-producer → 이미지 제작 (Track A: 캡처 / Track B: Gemini)
   ↓
+★ image-reviewer → 이미지 품질 검수 ★ (반드시 통과 후 진행)
+  - 내용 정합성: 이미지가 해당 단계 텍스트와 일치하는가
+  - 어노테이션 정확성: 레이블 한국어·화살표 위치 정확한가
+  - 캡처 품질: 로딩 중·빈 응답·플레이스홀더 없는가
+  ↓ Pass (Fail 시 image-producer 재작업 → 재검수)
 reviewer → 초보자 관점 검수
   ↓ Pass
 publisher → Notion 페이지 (이미지 직접 업로드)
